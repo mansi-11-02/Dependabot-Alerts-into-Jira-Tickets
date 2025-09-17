@@ -1,0 +1,22 @@
+name: Run Dependabot Alerts Script
+
+on:
+  schedule:
+    #- cron: '0 18 * * *'  # Runs daily at 6 PM UTC  #(uncomment this line to run this workflow)
+
+jobs:
+  run-script:
+    runs-on: arc-runner-set
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Run Dependabot Alerts Script
+      env:
+        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        PAT_JIRA: ${{ secrets.PAT_JIRA }}
+      run: |
+        cd .github/config
+        chmod +x create_jira_tickets.sh
+        ./create_jira_tickets.sh
